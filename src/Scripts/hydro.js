@@ -2,7 +2,7 @@
   let promiseChain = {};
 
   const configMeta = document.querySelector('meta[name="hydro-config"]');
-  const config = configMeta ? JSON.parse(configMeta.content) : {};
+  const config = configMeta ? JSON.parse(configMeta.content) : { BasePath: '/hydro' };
   let currentPathname = document.location.pathname + document.location.search;
 
   function createScriptTag(content, src, autoRemove) {
@@ -217,7 +217,7 @@
       throw new Error('Cannot find Hydro component');
     }
 
-    const url = `/hydro/${component.name}`;
+    const url = `${config.BasePath}/${component.name}`;
 
     if (!binding[component.id]) {
       binding[component.id] = {
@@ -278,7 +278,7 @@
   }
 
   async function hydroAction(el, component, action) {
-    const url = `/hydro/${component.name}/${action.name}`;
+    const url = `${config.BasePath}/${component.name}/${action.name}`;
 
     if (Array.from(el.attributes).some(attr => attr.name.startsWith('x-hydro-bind')) && isElementDirty(el)) {
       await hydroBind(el);

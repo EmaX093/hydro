@@ -43,7 +43,8 @@ public sealed class HydroConfigMetaTagHelper : TagHelper
 
     private object GetConfig(HydroOptions options) => new
     {
-        Antiforgery = GetAntiforgeryConfig(options)
+        Antiforgery = GetAntiforgeryConfig(options),
+        BasePath = options.BasePath
     };
 
     private AntiforgeryConfig GetAntiforgeryConfig(HydroOptions options)

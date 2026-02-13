@@ -7,7 +7,13 @@ namespace Hydro.Configuration;
 /// </summary>
 public class HydroOptions
 {
+    /// <summary>
+    /// The default base path all hydro requests are based of
+    /// </summary>
+    public const string DefaultBasePath = "/hydro";
+    
     private IEnumerable<IHydroValueMapper> _valueMappers;
+    private string _basePath = DefaultBasePath;
 
     internal Dictionary<Type, IHydroValueMapper> ValueMappersDictionary { get; set; } = new();
 
@@ -36,5 +42,15 @@ public class HydroOptions
                 ValueMappersDictionary = value.ToDictionary(mapper => mapper.MappedType, mapper => mapper);
             }
         }
+    }
+
+    /// <summary>
+    /// The base path all hydro requests are based of
+    /// The path is must always start with a slash '/' and any slashes in the end are trimmed
+    /// </summary>
+    public string BasePath
+    {
+        get => _basePath;
+        set => _basePath = string.IsNullOrWhiteSpace(value) ? DefaultBasePath : value.TrimEnd('/');
     }
 }
