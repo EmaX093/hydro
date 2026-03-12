@@ -1,7 +1,4 @@
-﻿using Hydro.Services;
-using JetBrains.Annotations;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Hydro.Configuration;
