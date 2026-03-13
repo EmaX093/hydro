@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Hydro.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -16,9 +17,11 @@ internal static class HydroComponentsExtensions
 {
     public static void MapHydroComponent(this IEndpointRouteBuilder app, Type componentType)
     {
+        
         var componentName = componentType.Name;
-
-        app.MapPost($"/hydro/{componentName}/{{method?}}", async (
+        var options = app.ServiceProvider.GetRequiredService<HydroOptions>();
+        
+        app.MapPost($"{options.BasePath}/{componentName}/{{method?}}", async (
             [FromServices] IServiceProvider serviceProvider,
             [FromServices] IViewComponentHelper viewComponentHelper,
             [FromServices] HydroOptions hydroOptions,
