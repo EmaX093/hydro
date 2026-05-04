@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Routing;
 using Hydro.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Hydro;
 
@@ -78,9 +78,9 @@ internal static class HydroComponentsExtensions
 
         var model = hydroData["__hydro_model"].First();
         var type = hydroData["__hydro_type"].First();
-        var parameters = JsonConvert.DeserializeObject<Dictionary<string, object>>(hydroData["__hydro_parameters"].FirstOrDefault("{}"), HydroComponent.JsonSerializerSettings);
-        var eventData = JsonConvert.DeserializeObject<HydroEventPayload>(hydroData["__hydro_event"].FirstOrDefault(string.Empty));
-        var componentIds = JsonConvert.DeserializeObject<string[]>(hydroData["__hydro_componentIds"].FirstOrDefault("[]"));
+        var parameters = JsonSerializer.Deserialize<Dictionary<string, object>>(hydroData["__hydro_parameters"].FirstOrDefault("{}"), HydroComponent.JsonSerializerSettings);
+        var eventData = JsonSerializer.Deserialize<HydroEventPayload>(hydroData["__hydro_event"].FirstOrDefault("null"));
+        var componentIds = JsonSerializer.Deserialize<string[]>(hydroData["__hydro_componentIds"].FirstOrDefault("[]"));
         var form = new FormCollection(formValues, hydroData.Files);
 
         context.Items.Add(HydroConsts.ContextItems.RenderedComponentIds, componentIds);
